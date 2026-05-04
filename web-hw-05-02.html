@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Игра на реакцию</title>
+
+<style>
+body {
+    background-color: #e6a5ad;
+    font-family: Arial;
+    text-align: center;
+}
+
+.block {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 15px;
+    width: 60%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.output {
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+    margin: auto;
+    position: relative;
+}
+
+.box {
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    position: absolute;
+    display: none;
+    cursor: pointer;
+}
+
+.message {
+    color: aquamarine;
+    margin-top: 10px;
+}
+
+a {
+    color: aquamarine;
+}
+</style>
+</head>
+
+<body>
+
+<div style="margin:20px;">
+<a href="index.html">← Вернуться на главную</a>
+</div>
+
+<div class="block">
+
+<h2 style="color:aquamarine;">Игра на реакцию</h2>
+
+<div class="output"></div>
+<div class="message">Нажми чтобы начать</div>
+
+</div>
+
+<script>
+
+let output = document.querySelector(".output");
+let message = document.querySelector(".message");
+
+let box = document.createElement("div");
+box.classList.add("box");
+output.appendChild(box);
+
+let game = { start: null };
+
+function rand(max) {
+    return Math.floor(Math.random() * max);
+}
+
+box.addEventListener("click", () => {
+
+    let end = new Date().getTime();
+    let time = (end - game.start) / 1000;
+
+    message.textContent = "Твое время: " + time + " сек";
+
+    box.style.display = "none";
+});
+
+output.addEventListener("click", () => {
+
+    message.textContent = "Жди...";
+    box.style.display = "none";
+
+    let delay = rand(3000);
+
+    setTimeout(() => {
+        showBox();
+    }, delay);
+
+});
+
+function showBox() {
+
+    let x = rand(450);
+    let y = rand(450);
+
+    box.style.left = x + "px";
+    box.style.top = y + "px";
+
+    box.style.display = "block";
+
+    game.start = new Date().getTime();
+
+    message.textContent = "ЖМИ!";
+}
+
+</script>
+
+</body>
+</html>
