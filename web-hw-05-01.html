@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WEB.HW.05</title>
+
+<style>
+body {
+    background-color: #e6a5ad;
+    font-family: Arial;
+    text-align: center;
+}
+
+.block {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 15px;
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+h2 { color: aquamarine; }
+
+a, button {
+    color: aquamarine;
+    border: 1px solid aquamarine;
+    padding: 8px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.orange { color: orange; }
+
+#mouseBox {
+    width: 300px;
+    height: 200px;
+    border: 2px solid black;
+    margin: auto;
+}
+
+.active {
+    background-color: red;
+}
+</style>
+</head>
+
+<body>
+
+<div style="margin:20px;">
+<a href="index.html">← Вернуться на главную</a>
+</div>
+
+<!-- Аналитика -->
+<div class="block">
+<h2>Аналитика кликов</h2>
+
+<div id="container">
+<div class="box" id="box1">Кнопка 1</div>
+<div class="box" id="box2">Кнопка 2</div>
+<div class="box" id="box3">Кнопка 3</div>
+<div class="box" id="box4">Кнопка 4</div>
+</div>
+
+<div id="log"></div>
+</div>
+
+<!-- Рейтинг -->
+<div class="block">
+<h2>Звездный рейтинг</h2>
+
+<div id="stars">
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+</div>
+
+<div id="rating"></div>
+</div>
+
+<!-- Мышь -->
+<div class="block">
+<h2>Отслеживание мыши</h2>
+
+<div id="mouseBox"></div>
+<div id="coords"></div>
+
+</div>
+
+<script>
+
+//// 1. АНАЛИТИКА
+let logArr = [];
+let container = document.getElementById("container");
+
+container.addEventListener("click", (e) => {
+
+    if (!e.target.id) return;
+
+    let obj = {
+        text: e.target.textContent,
+        id: e.target.id,
+        tag: e.target.tagName,
+        class: e.target.className
+    };
+
+    logArr.push(obj);
+
+    document.getElementById("log").innerHTML =
+        JSON.stringify(logArr, null, 2);
+});
+
+//// 2. ЗВЕЗДЫ
+let stars = document.querySelectorAll(".star");
+let output = document.getElementById("rating");
+
+stars.forEach((star, index) => {
+
+    star.addEventListener("click", () => {
+
+        output.textContent = "Оценка: " + (index + 1);
+
+        stars.forEach((s, i) => {
+            s.classList.toggle("orange", i <= index);
+        });
+
+    });
+
+});
+
+//// 3. МЫШЬ
+let box = document.getElementById("mouseBox");
+let coords = document.getElementById("coords");
+
+box.addEventListener("mouseover", () => {
+    box.classList.add("active");
+});
+
+box.addEventListener("mouseout", () => {
+    box.classList.remove("active");
+});
+
+box.addEventListener("mousemove", (e) => {
+    coords.textContent = "X: " + e.clientX + " Y: " + e.clientY;
+});
+
+</script>
+
+</body>
+</html>
