@@ -5,23 +5,54 @@
 <title>Аккордеон</title>
 
 <style>
+body {
+    background-color: #e6a5ad;
+    font-family: Arial;
+    text-align: center;
+}
+
+.block {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 15px;
+    width: 60%;
+    margin: auto;
+}
+
+h2 {
+    color: aquamarine;
+}
+
 .title {
     background: #ccc;
     padding: 10px;
     cursor: pointer;
+    margin-top: 5px;
 }
+
 .myText {
     display: none;
     padding: 10px;
 }
+
 .active {
     display: block;
 }
+
+a {
+    color: aquamarine;
+}
 </style>
+
 </head>
 
 <body>
 
+<div style="margin:20px;">
+<a href="index.html">← Вернуться на главную</a>
+</div>
+
+<div class="block">
 <h2>Аккордеон</h2>
 
 <div class="title">Заголовок 1</div>
@@ -32,6 +63,7 @@
 
 <div class="title">Заголовок 3</div>
 <div class="myText">Текст 3</div>
+</div>
 
 <script>
 let titles = document.querySelectorAll(".title");
