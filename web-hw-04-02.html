@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Голосование</title>
+</head>
+
+<body>
+
+<h2>Голосование</h2>
+
+<input type="text" id="addFriend">
+<button id="addNew">Добавить</button>
+
+<table id="output"></table>
+
+<script>
+let myArray = ["Артемий", "Иван", "Мария"];
+let output = document.getElementById("output");
+
+function build() {
+    output.innerHTML = "";
+
+    myArray.forEach((name, i) => {
+        let tr = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        td1.textContent = i + 1;
+
+        let td2 = document.createElement("td");
+        td2.textContent = name;
+
+        let td3 = document.createElement("td");
+        td3.textContent = 0;
+
+        tr.append(td1, td2, td3);
+
+        tr.addEventListener("click", () => {
+            td3.textContent = Number(td3.textContent) + 1;
+        });
+
+        output.appendChild(tr);
+    });
+}
+
+build();
+
+document.getElementById("addNew").onclick = () => {
+    let val = document.getElementById("addFriend").value;
+    if (val) {
+        myArray.push(val);
+        build();
+    }
+};
+</script>
+
+</body>
+</html>
