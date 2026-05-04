@@ -5,9 +5,36 @@
 <title>Виселица</title>
 
 <style>
-.gameArea {
+body {
+    background-color: #e6a5ad;
+    font-family: Arial;
     text-align: center;
-    font-size: 20px;
+}
+
+.block {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 15px;
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+h2 {
+    color: aquamarine;
+}
+
+a, button {
+    color: aquamarine;
+    background-color: transparent;
+    border: 1px solid aquamarine;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: aquamarine;
+    color: black;
 }
 
 .letter {
@@ -26,6 +53,7 @@
 .hearts {
     font-size: 25px;
     color: red;
+    margin-bottom: 10px;
 }
 </style>
 
@@ -33,7 +61,11 @@
 
 <body>
 
-<div class="gameArea">
+<div style="margin:20px;">
+    <a href="index.html">← Вернуться на главную</a>
+</div>
+
+<div class="block">
 
 <h2>Виселица</h2>
 
@@ -68,7 +100,7 @@ const resultDiv = document.querySelector(".result");
 document.getElementById("start").onclick = startGame;
 
 function startGame() {
-    word = words[Math.floor(Math.random()*words.length)];
+    word = words[Math.floor(Math.random() * words.length)];
     guessed = Array(word.length).fill("_");
     lives = 5;
 
@@ -132,13 +164,16 @@ function handleGuess(letter, btn) {
 function checkGame() {
 
     if (!guessed.includes("_")) {
-        resultDiv.textContent = "🎉 ТЫ ВЫИГРАЛ!";
+        resultDiv.innerHTML = `
+        🎉 ТЫ ВЫИГРАЛ! <br><br>
+        <button onclick="startGame()">Сыграть еще раз</button>
+        `;
     }
 
     if (lives <= 0) {
         resultDiv.innerHTML = `
-        ТЫ ПРОИГРАЛ! <br>
-        Слово было: ${word} <br>
+        ❌ ТЫ ПРОИГРАЛ! <br>
+        Слово было: ${word} <br><br>
         <button onclick="startGame()">Попробовать еще раз</button>
         `;
     }
