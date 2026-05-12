@@ -7,6 +7,8 @@
     --border-color: #d7e1ec;
 }
 
+/* Общие стили страницы зачётной работы */
+
 .cpp-page {
     background-color: var(--light-bg);
     color: var(--text-color);
@@ -15,6 +17,8 @@
 .cpp-header {
     background: linear-gradient(135deg, var(--main-blue), var(--dark-blue));
 }
+
+/* Навигация */
 
 .cpp-nav {
     display: flex;
@@ -36,6 +40,7 @@
     cursor: pointer;
     font-family: Arial, sans-serif;
     font-size: 14px;
+    transition: background-color 0.25s ease, color 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
 }
 
 .cpp-nav a {
@@ -43,10 +48,22 @@
     color: var(--main-blue);
 }
 
+.cpp-nav a:hover,
+.theme-button:hover,
+.timeline-button:hover,
+.tab-button:hover,
+.copy-button:hover,
+.accordion-button:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
 .theme-button {
-    background-color: #222;
+    background-color: #222222;
     color: white;
 }
+
+/* Таймлайн */
 
 .timeline-buttons {
     display: flex;
@@ -59,12 +76,7 @@
     color: white;
 }
 
-.timeline-button:hover,
-.tab-button:hover,
-.copy-button:hover,
-.accordion-button:hover {
-    opacity: 0.85;
-}
+/* Простые информационные блоки */
 
 .simple-box {
     background-color: #f1f7ff;
@@ -72,6 +84,12 @@
     padding: 12px;
     border-radius: 8px;
 }
+
+section {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Табы */
 
 .tabs {
     display: flex;
@@ -82,7 +100,7 @@
 
 .tab-button {
     background-color: #dcecff;
-    color: #222;
+    color: #222222;
 }
 
 .tab-button.active {
@@ -97,6 +115,8 @@
 .tab-content.active {
     display: block;
 }
+
+/* Примеры кода */
 
 pre {
     background-color: #1f2937;
@@ -118,6 +138,8 @@ code {
     margin-top: 10px;
 }
 
+/* Аккордеон */
+
 .accordion-content {
     display: none;
     background-color: #f1f7ff;
@@ -130,11 +152,15 @@ code {
     display: block;
 }
 
+/* Подвал */
+
 .cpp-footer {
     text-align: center;
     margin: 25px 0;
-    color: #555;
+    color: #555555;
 }
+
+/* Тёмная тема */
 
 .dark-theme {
     --light-bg: #151922;
@@ -161,6 +187,23 @@ code {
     color: #8ec5ff;
 }
 
+.dark-theme .cpp-nav a {
+    background-color: #2c3445;
+    color: #8ec5ff;
+}
+
+.dark-theme .tab-button {
+    background-color: #2c3445;
+    color: #f1f1f1;
+}
+
+.dark-theme .tab-button.active {
+    background-color: var(--main-blue);
+    color: white;
+}
+
+/* Адаптивность */
+
 @media (max-width: 600px) {
     .cpp-nav {
         flex-direction: column;
@@ -173,6 +216,15 @@ code {
     .copy-button,
     .accordion-button {
         width: 100%;
+        box-sizing: border-box;
+        text-align: center;
     }
-    
+
+    .timeline-buttons {
+        flex-direction: column;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
 }
