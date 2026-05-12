@@ -18,6 +18,7 @@
                 <a href="index.html">Главная</a>
                 <a href="cpp-speaker.html">О спикере</a>
                 <a href="#timeline">Таймлайн</a>
+                <a href="#screenshots">Скриншоты</a>
                 <a href="#examples">Примеры</a>
                 <button class="theme-button" id="themeButton">Тёмная тема</button>
             </nav>
@@ -61,6 +62,41 @@
                 </div>
             </section>
 
+            <section id="screenshots">
+                <h2>Скриншоты из доклада</h2>
+                <p>
+                    Для лучшего понимания темы я добавил несколько скриншотов из видео.
+                    Они показывают основные части доклада: название, устройство объектов
+                    и работу виртуальных функций.
+                </p>
+            
+                <div class="screenshot-grid">
+                    <article class="screenshot-card">
+                        <img src="img/cpp-screen-1.jpg" alt="Титульный слайд доклада">
+                        <p>
+                            Титульный слайд доклада. По нему видно название выступления
+                            и основную тему — наследование и виртуальность в C++.
+                        </p>
+                    </article>
+            
+                    <article class="screenshot-card">
+                        <img src="img/cpp-screen-2.jpg" alt="Слайд про расположение объектов в памяти">
+                        <p>
+                            Слайд про внутреннее устройство объектов. Он помогает понять,
+                            что классы в C++ имеют конкретное расположение в памяти.
+                        </p>
+                    </article>
+            
+                    <article class="screenshot-card">
+                        <img src="img/cpp-screen-3.jpg" alt="Слайд про виртуальные функции и vtable">
+                        <p>
+                            Слайд про виртуальные функции и vtable. Эта часть связана
+                            с тем, как программа выбирает нужный метод во время выполнения.
+                        </p>
+                    </article>
+                </div>
+            </section>
+            
             <section id="part-1">
                 <h2>00:00 — Введение</h2>
                 <p>
@@ -112,6 +148,29 @@
                     с ней не работает, но важно знать, что она может влиять на размер объекта
                     и скорость работы.
                 </p>
+                <div class="memory-schema">
+                    <div class="memory-item">
+                        <strong>Объект</strong>
+                        <p>
+                            Хранит поля класса. Например, возраст животного или вес собаки.
+                        </p>
+                    </div>
+                
+                    <div class="memory-item">
+                        <strong>vptr</strong>
+                        <p>
+                            Служебный указатель, который может появляться у объектов
+                            с виртуальными функциями.
+                        </p>
+                    </div>
+                
+                    <div class="memory-item">
+                        <strong>vtable</strong>
+                        <p>
+                            Таблица, через которую программа находит нужную виртуальную функцию.
+                        </p>
+                    </div>
+                </div>  
             </section>
 
             <section id="part-5">
@@ -127,48 +186,187 @@
             <section id="examples">
                 <h2>Примеры кода</h2>
                 <p>
-                    Здесь сделаны простые вкладки. Они показывают разные примеры,
-                    связанные с темой доклада.
+                    В докладе объясняется, что наследование и виртуальные функции влияют
+                    не только на синтаксис программы, но и на то, как объект устроен в памяти.
+                    Поэтому ниже приведены несколько примеров, которые помогают понять тему.
                 </p>
-
+            
                 <div class="tabs">
-                    <button class="tab-button active" data-tab="tab-1">Наследование</button>
+                    <button class="tab-button active" data-tab="tab-1">Обычное наследование</button>
                     <button class="tab-button" data-tab="tab-2">Виртуальный метод</button>
+                    <button class="tab-button" data-tab="tab-3">Виртуальный деструктор</button>
+                    <button class="tab-button" data-tab="tab-4">Множественное наследование</button>
                 </div>
-
+            
                 <article class="tab-content active" id="tab-1">
-                    <h3>Пример наследования</h3>
+                    <h3>Пример 1. Обычное наследование</h3>
+            
+                    <div class="code-note">
+                        <p>
+                            Здесь класс <strong>Dog</strong> наследуется от класса <strong>Animal</strong>.
+                            Объект Dog содержит часть Animal и добавляет своё поле.
+                        </p>
+                    </div>
+            
                     <pre><code>class Animal {
-public:
-    void eat() {
-        // общее действие
-    }
-};
-
-class Dog : public Animal {
-public:
-    void bark() {
-        // действие собаки
-    }
-};</code></pre>
+            public:
+                int age;
+            
+                void eat() {
+                    // общее действие для всех животных
+                }
+            };
+            
+            class Dog : public Animal {
+            public:
+                int weight;
+            
+                void bark() {
+                    // действие, которое есть только у собаки
+                }
+            };
+            
+            int main() {
+                Dog dog;
+            
+                dog.age = 3;
+                dog.weight = 15;
+            
+                dog.eat();
+                dog.bark();
+            }</code></pre>
+            
+                    <p>
+                        В этом примере нет виртуальных функций, поэтому вызовы методов достаточно простые.
+                        Компилятор заранее понимает, какую функцию нужно вызвать.
+                    </p>
+            
+                    <button class="copy-button">Скопировать код</button>
+                </article>
+            
+                <article class="tab-content" id="tab-2">
+                    <h3>Пример 2. Виртуальный метод</h3>
+            
+                    <div class="code-note">
+                        <p>
+                            Виртуальная функция нужна для полиморфизма. Это значит, что программа
+                            может вызвать метод наследника через указатель на базовый класс.
+                        </p>
+                    </div>
+            
+                    <pre><code>#include &lt;iostream&gt;
+            
+            class Animal {
+            public:
+                virtual void sound() {
+                    std::cout &lt;&lt; "Some animal sound" &lt;&lt; std::endl;
+                }
+            };
+            
+            class Dog : public Animal {
+            public:
+                void sound() override {
+                    std::cout &lt;&lt; "Bark" &lt;&lt; std::endl;
+                }
+            };
+            
+            int main() {
+                Dog dog;
+                Animal* animal = &dog;
+            
+                animal-&gt;sound();
+            }</code></pre>
+            
+                    <p>
+                        Хотя переменная имеет тип <strong>Animal*</strong>, фактически она указывает
+                        на объект <strong>Dog</strong>. Благодаря слову <strong>virtual</strong>
+                        будет вызван метод <strong>Dog::sound</strong>.
+                    </p>
+            
                     <button class="copy-button">Скопировать код</button>
                 </article>
 
-                <article class="tab-content" id="tab-2">
-                    <h3>Пример виртуального метода</h3>
-                    <pre><code>class Animal {
-public:
-    virtual void sound() {
-        // обычный звук
-    }
-};
+                <article class="tab-content" id="tab-3">
+                    <h3>Пример 3. Виртуальный деструктор</h3>
+            
+                    <div class="code-note">
+                        <p>
+                            Если объект наследника удаляется через указатель на базовый класс,
+                            у базового класса должен быть виртуальный деструктор.
+                        </p>
+                </div>
 
-class Dog : public Animal {
-public:
-    void sound() override {
-        // лай собаки
-    }
-};</code></pre>
+                    <pre><code>#include &lt;iostream&gt;
+
+            class Animal {
+            public:
+                virtual ~Animal() {
+                    std::cout &lt;&lt; "Animal destroyed" &lt;&lt; std::endl;
+                }
+            };
+
+            class Dog : public Animal {
+            public:
+                ~Dog() override {
+                    std::cout &lt;&lt; "Dog destroyed" &lt;&lt; std::endl;
+                }
+            };
+
+            int main() {
+                Animal* animal = new Dog();
+
+                delete animal;
+            }</code></pre>
+
+                    <p>
+                        Если убрать <strong>virtual</strong> у деструктора базового класса,
+                        при удалении объекта может возникнуть ошибка логики: деструктор наследника
+                        может не вызваться корректно.
+                    </p>
+
+                    <button class="copy-button">Скопировать код</button>
+                </article>
+
+                <article class="tab-content" id="tab-4">
+                    <h3>Пример 4. Множественное наследование</h3>
+
+                    <div class="code-note">
+                        <p>
+                            Множественное наследование сложнее обычного, потому что объект может
+                            содержать сразу несколько базовых частей.
+                        </p>
+                    </div>
+
+                    <pre><code>class Printer {
+            public:
+                virtual void print() {
+                    // печать документа
+                }
+            };
+
+            class Scanner {
+            public:
+                virtual void scan() {
+                    // сканирование документа
+                }
+            };
+
+            class MFP : public Printer, public Scanner {
+            public:
+                void print() override {
+                    // печать на МФУ
+                }
+
+                void scan() override {
+                    // сканирование на МФУ
+                }
+            };</code></pre>
+
+                    <p>
+                        Такой код может быть удобным, но внутреннее устройство объекта становится сложнее.
+                        Именно поэтому в докладе уделяется внимание тому, как классы располагаются в памяти.
+                    </p>
+
                     <button class="copy-button">Скопировать код</button>
                 </article>
             </section>
