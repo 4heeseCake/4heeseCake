@@ -1,122 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Игра на реакцию</title>
-
-<style>
-body {
-    background-color: #e6a5ad;
-    font-family: Arial;
-    text-align: center;
-}
-
-.block {
-    background-color: gray;
-    padding: 20px;
-    border-radius: 15px;
-    width: 60%;
-    margin: auto;
-    margin-top: 20px;
-}
-
-.output {
-    width: 500px;
-    height: 500px;
-    border: 1px solid black;
-    margin: auto;
-    position: relative;
-}
-
-.box {
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    position: absolute;
-    display: none;
-    cursor: pointer;
-}
-
-.message {
-    color: aquamarine;
-    margin-top: 10px;
-}
-
-a {
-    color: aquamarine;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB.HW.05.02 — Игра на реакцию</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
 
-<div style="margin:20px;">
-<a href="index.html">← Вернуться на главную</a>
-</div>
+    <div class="container">
+        <header>
+            <h1>WEB.HW.05.02 — Игра на реакцию</h1>
+            <p>Проверка скорости клика после появления цели</p>
+        </header>
 
-<div class="block">
+        <section>
+            <a class="page-link" href="index.html">← Вернуться на главную</a>
 
-<h2 style="color:aquamarine;">Игра на реакцию</h2>
+            <h2>Игра на реакцию</h2>
+            <p>
+                Нажмите «Пуск», дождитесь появления красного круга
+                и нажмите на него как можно быстрее.
+            </p>
 
-<div class="output"></div>
-<div class="message">Нажми чтобы начать</div>
+            <button class="btn" id="startButton">Пуск</button>
 
-</div>
+            <div class="reaction-field" id="reactionField">
+                <button class="reaction-target" id="targetButton" aria-label="цель"></button>
+            </div>
 
-<script>
+            <div class="result-box" id="messageBlock">
+                Нажмите «Пуск», чтобы начать.
+            </div>
+        </section>
+    </div>
 
-let output = document.querySelector(".output");
-let message = document.querySelector(".message");
+    <script>
+        const startButton = document.getElementById('startButton');
+        const reactionField = document.getElementById('reactionField');
+        const targetButton = document.getElementById('targetButton');
+        const messageBlock = document.getElementById('messageBlock');
 
-let box = document.createElement("div");
-box.classList.add("box");
-output.appendChild(box);
+        let startTime = 0;
+        let timerId = null;
+        let isTargetVisible = false;
 
-let game = { start: null };
+        function getRandomNumber(max) {
+            return Math.floor(Math.random() * max);
+        }
 
-function rand(max) {
-    return Math.floor(Math.random() * max);
-}
+        function startGame() {
+            clearTimeout(timerId);
 
-box.addEventListener("click", () => {
+            targetButton.style.display = 'none';
+            isTargetVisible = false;
+            startButton.disabled = true;
+            messageBlock.textContent = 'Ждите появления цели...';
 
-    let end = new Date().getTime();
-    let time = (end - game.start) / 1000;
+            const delay = 1000 + getRandomNumber(3000);
 
-    message.textContent = "Твое время: " + time + " сек";
+            timerId = setTimeout(function () {
+                showTarget();
+            }, delay);
+        }
 
-    box.style.display = "none";
-});
+        function showTarget() {
+            const targetSize = 55;
+            const maxX = reactionField.clientWidth - targetSize;
+            const maxY = reactionField.clientHeight - targetSize;
 
-output.addEventListener("click", () => {
+            const x = getRandomNumber(maxX);
+            const y = getRandomNumber(maxY);
 
-    message.textContent = "Жди...";
-    box.style.display = "none";
+            targetButton.style.left = x + 'px';
+            targetButton.style.top = y + 'px';
+            targetButton.style.display = 'block';
 
-    let delay = rand(3000);
+            startTime = Date.now();
+            isTargetVisible = true;
 
-    setTimeout(() => {
-        showBox();
-    }, delay);
+            messageBlock.textContent = 'ЖМИ!';
+        }
 
-});
+        function finishGame() {
+            if (!isTargetVisible) {
+                return;
+            }
 
-function showBox() {
+            const endTime = Date.now();
+            const result = ((endTime - startTime) / 1000).toFixed(3);
 
-    let x = rand(450);
-    let y = rand(450);
+            targetButton.style.display = 'none';
+            isTargetVisible = false;
+            startButton.disabled = false;
 
-    box.style.left = x + "px";
-    box.style.top = y + "px";
+            messageBlock.textContent = 'Ваше время реакции: ' + result + ' сек. Для новой попытки нажмите «Пуск».';
+        }
 
-    box.style.display = "block";
-
-    game.start = new Date().getTime();
-
-    message.textContent = "ЖМИ!";
-}
-
-</script>
+        startButton.addEventListener('click', startGame);
+        targetButton.addEventListener('click', finishGame);
+    </script>
 
 </body>
 </html>
