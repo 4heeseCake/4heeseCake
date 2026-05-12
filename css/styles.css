@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: pink;
+    background-color: #eef3f8;
     color: #222;
 }
 
@@ -12,11 +12,11 @@ body {
 }
 
 header {
-    background-color: pink;
-    color: aquamarine;
+    background-color: #2f80ed;
+    color: white;
     text-align: center;
     padding: 30px 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 20px;
 }
 
@@ -24,11 +24,16 @@ header h1 {
     margin-bottom: 10px;
 }
 
+header p {
+    margin: 0;
+}
+
 section {
-    background-color: gray;
-    padding: 20px;
+    background-color: white;
+    padding: 22px;
     margin-bottom: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
+    border: 1px solid #d7e1ec;
 }
 
 h1, h2, h3 {
@@ -36,10 +41,28 @@ h1, h2, h3 {
 }
 
 h2 {
-    color: aquamarine;
-    border-bottom: 1px solid pink;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
+    color: #2f80ed;
+    border-bottom: 2px solid #d7e1ec;
+    padding-bottom: 7px;
+    margin-bottom: 12px;
+}
+
+h3 {
+    color: #333;
+}
+
+p {
+    line-height: 1.6;
+}
+
+a {
+    color: #2f80ed;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .photo {
@@ -47,29 +70,30 @@ h2 {
     max-width: 100%;
     display: block;
     margin: 15px auto;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 ul, ol {
-    padding-left: 20px;
+    padding-left: 22px;
 }
 
 li {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
+    line-height: 1.5;
 }
 
 @media (max-width: 600px) {
     .container {
-        width: 95%;
+        width: 94%;
         margin: 15px auto;
     }
 
     header {
-        padding: 20px 10px;
+        padding: 22px 12px;
     }
 
     section {
-        padding: 15px;
+        padding: 16px;
     }
 
     .photo {
