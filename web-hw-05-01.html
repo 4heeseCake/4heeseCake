@@ -98,7 +98,12 @@
 
                 starButtons.forEach(function (star) {
                     const starValue = Number(star.dataset.value);
-                    star.classList.toggle('selected', starValue <= value);
+
+                    if (starValue <= value) {
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                    }
                 });
 
                 ratingBlock.textContent = 'Ваша оценка: ' + value + ' из 5';
@@ -110,6 +115,7 @@
 
         mouseBox.addEventListener('mouseenter', function () {
             mouseBox.classList.add('mouse-active');
+            coordsBlock.textContent = 'Мышь внутри блока.';
         });
 
         mouseBox.addEventListener('mouseleave', function () {
@@ -119,6 +125,7 @@
 
         mouseBox.addEventListener('mousemove', function (event) {
             const rect = mouseBox.getBoundingClientRect();
+
             const x = Math.round(event.clientX - rect.left);
             const y = Math.round(event.clientY - rect.top);
 
