@@ -1,185 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Виселица</title>
-
-<style>
-body {
-    background-color: #e6a5ad;
-    font-family: Arial;
-    text-align: center;
-}
-
-.block {
-    background-color: gray;
-    padding: 20px;
-    border-radius: 15px;
-    width: 70%;
-    margin: auto;
-    margin-top: 20px;
-}
-
-h2 {
-    color: aquamarine;
-}
-
-a, button {
-    color: aquamarine;
-    background-color: transparent;
-    border: 1px solid aquamarine;
-    padding: 8px 15px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: aquamarine;
-    color: black;
-}
-
-.letter {
-    display: inline-block;
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid black;
-    cursor: pointer;
-}
-
-.word span {
-    font-size: 30px;
-    margin: 5px;
-}
-
-.hearts {
-    font-size: 25px;
-    color: red;
-    margin-bottom: 10px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB.HW.04.03 — Виселица</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
 
-<div style="margin:20px;">
-    <a href="index.html">← Вернуться на главную</a>
-</div>
+    <div class="container">
+        <header>
+            <h1>WEB.HW.04.03 — Виселица</h1>
+            <p>Небольшая игра на JavaScript</p>
+        </header>
 
-<div class="block">
+        <section>
+            <a class="page-link" href="index.html">← Вернуться на главную</a>
 
-<h2>Виселица</h2>
+            <h2>Игра «Виселица»</h2>
+            <p>
+                Нажмите «Начать игру», а затем выбирайте буквы.
+                Нужно угадать слово до того, как закончатся жизни.
+            </p>
 
-<div class="hearts"></div>
-<div class="word"></div>
-<div class="letters"></div>
+            <button class="btn" id="startButton">Начать игру</button>
 
-<br>
-<button id="start">Начать игру</button>
+            <div class="hearts" id="livesBlock"></div>
+            <div class="word" id="wordBlock"></div>
+            <div class="letters" id="lettersBlock"></div>
 
-<div class="result"></div>
+            <div class="result-box" id="resultBlock">
+                Нажмите кнопку, чтобы начать игру.
+            </div>
+        </section>
+    </div>
 
-</div>
+    <script>
+        const words = [
+            'МАССИВ',
+            'ФУНКЦИЯ',
+            'ПЕРЕМЕННАЯ',
+            'ЦИКЛ',
+            'КЛАСС',
+            'ОБЪЕКТ',
+            'АЛГОРИТМ',
+            'СТРОКА',
+            'БРАУЗЕР',
+            'СЕРВЕР'
+        ];
 
-<script>
+        const alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
 
-const words = [
-"МАССИВ","ФУНКЦИЯ","ПЕРЕМЕННАЯ","ЦИКЛ",
-"КЛАСС","ОБЪЕКТ","АЛГОРИТМ","СТРОКА",
-"БРАУЗЕР","СЕРВЕР"
-];
+        const startButton = document.getElementById('startButton');
+        const livesBlock = document.getElementById('livesBlock');
+        const wordBlock = document.getElementById('wordBlock');
+        const lettersBlock = document.getElementById('lettersBlock');
+        const resultBlock = document.getElementById('resultBlock');
 
-let word = "";
-let guessed = [];
-let lives = 5;
+        let currentWord = '';
+        let openedLetters = [];
+        let lives = 5;
+        let isGameActive = false;
 
-const wordDiv = document.querySelector(".word");
-const lettersDiv = document.querySelector(".letters");
-const heartsDiv = document.querySelector(".hearts");
-const resultDiv = document.querySelector(".result");
+        function startGame() {
+            const randomIndex = Math.floor(Math.random() * words.length);
 
-document.getElementById("start").onclick = startGame;
+            currentWord = words[randomIndex];
+            openedLetters = Array(currentWord.length).fill('_');
+            lives = 5;
+            isGameActive = true;
 
-function startGame() {
-    word = words[Math.floor(Math.random() * words.length)];
-    guessed = Array(word.length).fill("_");
-    lives = 5;
-
-    resultDiv.textContent = "";
-    drawHearts();
-    drawWord();
-    drawLetters();
-}
-
-function drawHearts() {
-    heartsDiv.textContent = "❤️".repeat(lives);
-}
-
-function drawWord() {
-    wordDiv.innerHTML = "";
-    guessed.forEach(l => {
-        let span = document.createElement("span");
-        span.textContent = l;
-        wordDiv.appendChild(span);
-    });
-}
-
-function drawLetters() {
-    lettersDiv.innerHTML = "";
-
-    const alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-
-    for (let l of alphabet) {
-        let btn = document.createElement("div");
-        btn.textContent = l;
-        btn.className = "letter";
-
-        btn.onclick = () => handleGuess(l, btn);
-
-        lettersDiv.appendChild(btn);
-    }
-}
-
-function handleGuess(letter, btn) {
-    btn.style.background = "gray";
-    btn.onclick = null;
-
-    let found = false;
-
-    for (let i = 0; i < word.length; i++) {
-        if (word[i] === letter) {
-            guessed[i] = letter;
-            found = true;
+            resultBlock.textContent = 'Игра началась. Выберите букву.';
+            drawLives();
+            drawWord();
+            drawLetters();
         }
-    }
 
-    if (!found) {
-        lives--;
-        drawHearts();
-    }
+        function drawLives() {
+            livesBlock.textContent = '❤️'.repeat(lives);
+        }
 
-    drawWord();
-    checkGame();
-}
+        function drawWord() {
+            wordBlock.replaceChildren();
 
-function checkGame() {
+            openedLetters.forEach(function (letter) {
+                const span = document.createElement('span');
+                span.classList.add('word-letter');
+                span.textContent = letter;
+                wordBlock.appendChild(span);
+            });
+        }
 
-    if (!guessed.includes("_")) {
-        resultDiv.innerHTML = `
-        🎉 ТЫ ВЫИГРАЛ! <br><br>
-        <button onclick="startGame()">Сыграть еще раз</button>
-        `;
-    }
+        function drawLetters() {
+            lettersBlock.replaceChildren();
 
-    if (lives <= 0) {
-        resultDiv.innerHTML = `
-        ❌ ТЫ ПРОИГРАЛ! <br>
-        Слово было: ${word} <br><br>
-        <button onclick="startGame()">Попробовать еще раз</button>
-        `;
-    }
-}
+            for (const letter of alphabet) {
+                const button = document.createElement('button');
 
-</script>
+                button.classList.add('letter-button');
+                button.textContent = letter;
+
+                button.addEventListener('click', function () {
+                    checkLetter(letter, button);
+                });
+
+                lettersBlock.appendChild(button);
+            }
+        }
+
+        function checkLetter(letter, button) {
+            if (!isGameActive) {
+                return;
+            }
+
+            button.disabled = true;
+
+            let isFound = false;
+
+            for (let i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === letter) {
+                    openedLetters[i] = letter;
+                    isFound = true;
+                }
+            }
+
+            if (!isFound) {
+                lives--;
+            }
+
+            drawLives();
+            drawWord();
+            checkResult();
+        }
+
+        function disableLetters() {
+            const letterButtons = document.querySelectorAll('.letter-button');
+
+            letterButtons.forEach(function (button) {
+                button.disabled = true;
+            });
+        }
+
+        function checkResult() {
+            if (!openedLetters.includes('_')) {
+                resultBlock.textContent = 'Вы выиграли! Слово: ' + currentWord;
+                isGameActive = false;
+                disableLetters();
+                return;
+            }
+
+            if (lives <= 0) {
+                resultBlock.textContent = 'Вы проиграли. Было загадано слово: ' + currentWord;
+                isGameActive = false;
+                disableLetters();
+            }
+        }
+
+        startButton.addEventListener('click', startGame);
+    </script>
 
 </body>
 </html>
