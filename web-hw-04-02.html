@@ -3,74 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB.HW.04.01 — Аккордеон</title>
+    <title>WEB.HW.04.02 — Голосование</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>WEB.HW.04.01 — Аккордеон</h1>
-            <p>Работа с элементами DOM и обработчиками событий</p>
+            <h1>WEB.HW.04.02 — Голосование</h1>
+            <p>Добавление элементов и изменение данных на странице</p>
         </header>
 
         <section>
             <a class="page-link" href="index.html">← Вернуться на главную</a>
 
-            <h2>Аккордеон</h2>
+            <h2>Голосование</h2>
             <p>
-                Нажмите на заголовок, чтобы открыть или закрыть текст.
-                Одновременно открыт только один пункт.
+                Можно добавить имя участника и проголосовать за него.
+                Количество голосов сохраняется во время работы страницы.
             </p>
 
-            <button class="accordion-button" data-target="panel-1">
-                Что такое HTML?
-            </button>
-            <div class="accordion-panel" id="panel-1">
-                <p>
-                    HTML — это язык разметки, с помощью которого создаётся структура веб-страницы.
-                </p>
+            <div class="controls">
+                <input class="text-input" type="text" id="nameInput" placeholder="Введите имя">
+                <button class="btn" id="addButton">Добавить</button>
             </div>
 
-            <button class="accordion-button" data-target="panel-2">
-                Что такое CSS?
-            </button>
-            <div class="accordion-panel" id="panel-2">
-                <p>
-                    CSS используется для оформления страницы: цвета, отступов, размеров и расположения элементов.
-                </p>
-            </div>
-
-            <button class="accordion-button" data-target="panel-3">
-                Что такое JavaScript?
-            </button>
-            <div class="accordion-panel" id="panel-3">
-                <p>
-                    JavaScript добавляет интерактивность: кнопки, игры, формы, меню и другие действия на странице.
-                </p>
-            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Имя</th>
+                        <th>Голоса</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </section>
     </div>
 
     <script>
-        const buttons = document.querySelectorAll('.accordion-button');
-        const panels = document.querySelectorAll('.accordion-panel');
+        const people = [
+            { name: 'Артемий', votes: 0 },
+            { name: 'Иван', votes: 0 },
+            { name: 'Мария', votes: 0 }
+        ];
 
-        buttons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                const panelId = button.dataset.target;
-                const currentPanel = document.getElementById(panelId);
-                const isOpen = currentPanel.classList.contains('is-open');
+        const nameInput = document.getElementById('nameInput');
+        const addButton = document.getElementById('addButton');
+        const tableBody = document.getElementById('tableBody');
 
-                panels.forEach(function (panel) {
-                    panel.classList.remove('is-open');
+        function createCell(text) {
+            const cell = document.createElement('td');
+            cell.textContent = text;
+            return cell;
+        }
+
+        function renderTable() {
+            tableBody.replaceChildren();
+
+            people.forEach(function (person, index) {
+                const row = document.createElement('tr');
+
+                const numberCell = createCell(index + 1);
+                const nameCell = createCell(person.name);
+                const votesCell = createCell(person.votes);
+
+                const actionCell = document.createElement('td');
+                const voteButton = document.createElement('button');
+
+                voteButton.classList.add('btn', 'btn-light');
+                voteButton.textContent = 'Голос';
+
+                voteButton.addEventListener('click', function () {
+                    person.votes++;
+                    renderTable();
                 });
 
-                if (!isOpen) {
-                    currentPanel.classList.add('is-open');
-                }
+                actionCell.appendChild(voteButton);
+
+                row.append(numberCell, nameCell, votesCell, actionCell);
+                tableBody.appendChild(row);
             });
+        }
+
+        function addPerson() {
+            const name = nameInput.value.trim();
+
+            if (name === '') {
+                alert('Введите имя участника');
+                return;
+            }
+
+            people.push({
+                name: name,
+                votes: 0
+            });
+
+            nameInput.value = '';
+            renderTable();
+        }
+
+        addButton.addEventListener('click', addPerson);
+
+        nameInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                addPerson();
+            }
         });
+
+        renderTable();
     </script>
 
 </body>
