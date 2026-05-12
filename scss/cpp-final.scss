@@ -7,6 +7,8 @@
     --border-color: #d7e1ec;
 }
 
+/* Общие стили страницы зачётной работы */
+
 .cpp-page {
     background-color: var(--light-bg);
     color: var(--text-color);
@@ -15,6 +17,12 @@
 .cpp-header {
     background: linear-gradient(135deg, var(--main-blue), var(--dark-blue));
 }
+
+section {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Навигация */
 
 .cpp-nav {
     display: flex;
@@ -41,12 +49,20 @@
     cursor: pointer;
     font-family: Arial, sans-serif;
     font-size: 14px;
+    transition: background-color 0.25s ease, color 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+
+    &:hover {
+        opacity: 0.85;
+        transform: translateY(-2px);
+    }
 }
 
 .theme-button {
-    background-color: #222;
+    background-color: #222222;
     color: white;
 }
+
+/* Таймлайн */
 
 .timeline-buttons {
     display: flex;
@@ -59,19 +75,79 @@
     color: white;
 }
 
-.timeline-button:hover,
-.tab-button:hover,
-.copy-button:hover,
-.accordion-button:hover {
-    opacity: 0.85;
-}
+/* Простые информационные блоки */
 
-.simple-box {
+.simple-box,
+.code-note {
     background-color: #f1f7ff;
     border-left: 4px solid var(--main-blue);
     padding: 12px;
     border-radius: 8px;
 }
+
+.code-note {
+    margin: 12px 0;
+}
+
+/* Скриншоты из доклада */
+
+#screenshots {
+    .screenshot-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .screenshot-card {
+        background-color: #f8fbff;
+        border: 1px solid #d7e1ec;
+        border-radius: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        p {
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 10px 0 0;
+        }
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: 180px;
+        object-fit: contain;
+        background-color: #111111;
+        border: 1px solid #d7e1ec;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+}
+
+/* Схема памяти */
+
+.memory-schema {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.memory-item {
+    background-color: #eef3f8;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+
+    strong {
+        color: var(--main-blue);
+    }
+}
+
+/* Табы */
 
 .tabs {
     display: flex;
@@ -82,7 +158,7 @@
 
 .tab-button {
     background-color: #dcecff;
-    color: #222;
+    color: #222222;
 
     &.active {
         background-color: var(--main-blue);
@@ -97,6 +173,8 @@
         display: block;
     }
 }
+
+/* Примеры кода */
 
 pre {
     background-color: #1f2937;
@@ -118,6 +196,8 @@ code {
     margin-top: 10px;
 }
 
+/* Аккордеон */
+
 .accordion-content {
     display: none;
     background-color: #f1f7ff;
@@ -130,11 +210,15 @@ code {
     }
 }
 
+/* Подвал */
+
 .cpp-footer {
     text-align: center;
     margin: 25px 0;
-    color: #555;
+    color: #555555;
 }
+
+/* Тёмная тема */
 
 .dark-theme {
     --light-bg: #151922;
@@ -151,13 +235,51 @@ code {
         color: #8ec5ff;
     }
 
+    a {
+        color: #8ec5ff;
+    }
+
+    .cpp-nav {
+        a {
+            background-color: #2c3445;
+            color: #8ec5ff;
+        }
+    }
+
     .simple-box,
-    .accordion-content {
+    .code-note,
+    .accordion-content,
+    .memory-item,
+    #screenshots .screenshot-card {
         background-color: #2c3445;
     }
 
-    a {
-        color: #8ec5ff;
+    .tab-button {
+        background-color: #2c3445;
+        color: #f1f1f1;
+
+        &.active {
+            background-color: var(--main-blue);
+            color: white;
+        }
+    }
+}
+
+/* Адаптивность */
+
+@media (max-width: 700px) {
+    #screenshots {
+        .screenshot-grid {
+            grid-template-columns: 1fr;
+        }
+
+        img {
+            height: 220px;
+        }
+    }
+
+    .memory-schema {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -173,5 +295,15 @@ code {
     .copy-button,
     .accordion-button {
         width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .timeline-buttons {
+        flex-direction: column;
+    }
+
+    .tabs {
+        flex-direction: column;
     }
 }
