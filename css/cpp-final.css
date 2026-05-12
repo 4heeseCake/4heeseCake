@@ -18,6 +18,10 @@
     background: linear-gradient(135deg, var(--main-blue), var(--dark-blue));
 }
 
+section {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
 /* Навигация */
 
 .cpp-nav {
@@ -78,15 +82,72 @@
 
 /* Простые информационные блоки */
 
-.simple-box {
+.simple-box,
+.code-note {
     background-color: #f1f7ff;
     border-left: 4px solid var(--main-blue);
     padding: 12px;
     border-radius: 8px;
 }
 
-section {
-    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+.code-note {
+    margin: 12px 0;
+}
+
+/* Скриншоты из доклада */
+
+#screenshots .screenshot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+#screenshots .screenshot-card {
+    background-color: #f8fbff;
+    border: 1px solid #d7e1ec;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#screenshots img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background-color: #111111;
+    border: 1px solid #d7e1ec;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#screenshots .screenshot-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 10px 0 0;
+}
+
+/* Схема памяти */
+
+.memory-schema {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.memory-item {
+    background-color: #eef3f8;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.memory-item strong {
+    color: var(--main-blue);
 }
 
 /* Табы */
@@ -178,11 +239,6 @@ code {
     color: #8ec5ff;
 }
 
-.dark-theme .simple-box,
-.dark-theme .accordion-content {
-    background-color: #2c3445;
-}
-
 .dark-theme a {
     color: #8ec5ff;
 }
@@ -190,6 +246,14 @@ code {
 .dark-theme .cpp-nav a {
     background-color: #2c3445;
     color: #8ec5ff;
+}
+
+.dark-theme .simple-box,
+.dark-theme .code-note,
+.dark-theme .accordion-content,
+.dark-theme .memory-item,
+.dark-theme #screenshots .screenshot-card {
+    background-color: #2c3445;
 }
 
 .dark-theme .tab-button {
@@ -203,6 +267,20 @@ code {
 }
 
 /* Адаптивность */
+
+@media (max-width: 700px) {
+    #screenshots .screenshot-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #screenshots img {
+        height: 220px;
+    }
+
+    .memory-schema {
+        grid-template-columns: 1fr;
+    }
+}
 
 @media (max-width: 600px) {
     .cpp-nav {
@@ -226,124 +304,5 @@ code {
 
     .tabs {
         flex-direction: column;
-    }
-
-
-.screenshot-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
-}
-
-.screenshot-card {
-    background-color: #f8fbff;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 12px;
-}
-
-.screenshot-card img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.screenshot-card p {
-    margin-bottom: 0;
-    font-size: 14px;
-}
-
-.code-note {
-    background-color: #f1f7ff;
-    border-left: 4px solid var(--main-blue);
-    padding: 12px;
-    border-radius: 8px;
-    margin: 12px 0;
-}
-
-.memory-schema {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.memory-item {
-    background-color: #eef3f8;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 12px;
-}
-
-.memory-item strong {
-    color: var(--main-blue);
-}
-
-.dark-theme .screenshot-card,
-.dark-theme .code-note,
-.dark-theme .memory-item {
-    background-color: #2c3445;
-}
-
-@media (min-width: 700px) {
-    .screenshot-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .memory-schema {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-}
-
-
-/* Скриншоты из доклада */
-
-#screenshots img {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 180px;
-    object-fit: contain;
-    background-color: #111;
-    border: 1px solid #d7e1ec;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-#screenshots .screenshot-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-top: 15px;
-}
-
-#screenshots .screenshot-card {
-    background-color: #f8fbff;
-    border: 1px solid #d7e1ec;
-    border-radius: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-#screenshots .screenshot-card p {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 0;
-}
-
-.dark-theme #screenshots .screenshot-card {
-    background-color: #2c3445;
-}
-
-@media (max-width: 700px) {
-    #screenshots .screenshot-grid {
-        grid-template-columns: 1fr;
-    }
-
-    #screenshots img {
-        height: 220px;
     }
 }
