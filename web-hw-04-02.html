@@ -1,111 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Голосование</title>
-
-<style>
-body {
-    background-color: #e6a5ad;
-    font-family: Arial;
-    text-align: center;
-}
-
-.block {
-    background-color: gray;
-    padding: 20px;
-    border-radius: 15px;
-    width: 60%;
-    margin: auto;
-    margin-top: 20px;
-}
-
-h2 {
-    color: aquamarine;
-}
-
-a, button {
-    color: aquamarine;
-    background-color: transparent;
-    border: 1px solid aquamarine;
-    padding: 8px 15px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: aquamarine;
-    color: black;
-}
-
-table {
-    margin: auto;
-    margin-top: 15px;
-    border-collapse: collapse;
-}
-
-td {
-    border: 1px solid black;
-    padding: 8px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB.HW.04.01 — Аккордеон</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
 
-<div style="margin:20px;">
-    <a href="index.html">← Вернуться на главную</a>
-</div>
+    <div class="container">
+        <header>
+            <h1>WEB.HW.04.01 — Аккордеон</h1>
+            <p>Работа с элементами DOM и обработчиками событий</p>
+        </header>
 
-<div class="block">
-<h2>Голосование</h2>
+        <section>
+            <a class="page-link" href="index.html">← Вернуться на главную</a>
 
-<input type="text" id="addFriend" placeholder="Введите имя">
-<button id="addNew">Добавить</button>
+            <h2>Аккордеон</h2>
+            <p>
+                Нажмите на заголовок, чтобы открыть или закрыть текст.
+                Одновременно открыт только один пункт.
+            </p>
 
-<table id="output"></table>
-</div>
+            <button class="accordion-button" data-target="panel-1">
+                Что такое HTML?
+            </button>
+            <div class="accordion-panel" id="panel-1">
+                <p>
+                    HTML — это язык разметки, с помощью которого создаётся структура веб-страницы.
+                </p>
+            </div>
 
-<script>
-let myArray = ["Артемий", "Иван", "Мария"];
-let output = document.getElementById("output");
+            <button class="accordion-button" data-target="panel-2">
+                Что такое CSS?
+            </button>
+            <div class="accordion-panel" id="panel-2">
+                <p>
+                    CSS используется для оформления страницы: цвета, отступов, размеров и расположения элементов.
+                </p>
+            </div>
 
-function build() {
-    output.innerHTML = "";
+            <button class="accordion-button" data-target="panel-3">
+                Что такое JavaScript?
+            </button>
+            <div class="accordion-panel" id="panel-3">
+                <p>
+                    JavaScript добавляет интерактивность: кнопки, игры, формы, меню и другие действия на странице.
+                </p>
+            </div>
+        </section>
+    </div>
 
-    myArray.forEach((name, i) => {
-        let tr = document.createElement("tr");
+    <script>
+        const buttons = document.querySelectorAll('.accordion-button');
+        const panels = document.querySelectorAll('.accordion-panel');
 
-        let td1 = document.createElement("td");
-        td1.textContent = i + 1;
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const panelId = button.dataset.target;
+                const currentPanel = document.getElementById(panelId);
+                const isOpen = currentPanel.classList.contains('is-open');
 
-        let td2 = document.createElement("td");
-        td2.textContent = name;
+                panels.forEach(function (panel) {
+                    panel.classList.remove('is-open');
+                });
 
-        let td3 = document.createElement("td");
-        td3.textContent = 0;
-
-        tr.append(td1, td2, td3);
-
-        tr.addEventListener("click", () => {
-            td3.textContent = Number(td3.textContent) + 1;
+                if (!isOpen) {
+                    currentPanel.classList.add('is-open');
+                }
+            });
         });
-
-        output.appendChild(tr);
-    });
-}
-
-build();
-
-document.getElementById("addNew").onclick = () => {
-    let val = document.getElementById("addFriend").value;
-    if (val) {
-        myArray.push(val);
-        build();
-        document.getElementById("addFriend").value = "";
-    }
-};
-</script>
+    </script>
 
 </body>
 </html>
