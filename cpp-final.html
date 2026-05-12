@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зачётное задание по докладу C++</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cpp-final.css">
+</head>
+<body class="cpp-page">
+
+    <div class="container">
+        <header class="cpp-header">
+            <h1>Back Deep to Basics: Наследование и виртуальность в C++</h1>
+            <p>Зачётное задание по курсу «Интернет-программирование»</p>
+
+            <nav class="cpp-nav">
+                <a href="index.html">Главная</a>
+                <a href="cpp-speaker.html">О спикере</a>
+                <a href="#timeline">Таймлайн</a>
+                <a href="#examples">Примеры</a>
+                <button class="theme-button" id="themeButton">Тёмная тема</button>
+            </nav>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2>О выбранном докладе</h2>
+                <p>
+                    Для зачётного задания я выбрал доклад Евгения Ерохина
+                    «Back Deep to Basics: Наследование и виртуальность в C++ (Часть 1)».
+                    Видео опубликовано на YouTube-канале C++ Russia.
+                </p>
+
+                <p>
+                    Главная тема доклада — как в C++ на самом деле работают наследование,
+                    виртуальные функции и v-таблицы. Спикер объясняет, что эти механизмы
+                    важны не только для синтаксиса, но и для производительности программы.
+                </p>
+
+                <p>
+                    <a href="https://youtu.be/VtC1uXyo7OU?si=2Rfj3gmJlf2Jom6d" target="_blank">
+                        Ссылка на видеодоклад
+                    </a>
+                </p>
+            </section>
+
+            <section id="timeline">
+                <h2>Интерактивный таймлайн</h2>
+                <p>
+                    Ниже указаны примерные части доклада. При нажатии на кнопку страница
+                    прокручивается к нужному разделу.
+                </p>
+
+                <div class="timeline-buttons">
+                    <button class="timeline-button" data-target="part-1">00:00 — Введение</button>
+                    <button class="timeline-button" data-target="part-2">08:00 — Наследование</button>
+                    <button class="timeline-button" data-target="part-3">18:00 — Виртуальные функции</button>
+                    <button class="timeline-button" data-target="part-4">30:00 — V-таблица</button>
+                    <button class="timeline-button" data-target="part-5">45:00 — Выводы</button>
+                </div>
+            </section>
+
+            <section id="part-1">
+                <h2>00:00 — Введение</h2>
+                <p>
+                    В начале доклада спикер объясняет, что знакомые темы C++ могут иметь
+                    много скрытых деталей. Даже если разработчик знает, как написать класс
+                    и наследование, ему полезно понимать, что происходит внутри программы.
+                </p>
+            </section>
+
+            <section id="part-2">
+                <h2>08:00 — Наследование в C++</h2>
+                <p>
+                    Наследование позволяет создавать один класс на основе другого.
+                    В простом случае объект наследника содержит часть базового класса
+                    и добавляет свои поля и методы.
+                </p>
+
+                <div class="simple-box">
+                    <p><strong>Простыми словами:</strong></p>
+                    <p>
+                        Если есть класс Animal, то класс Dog может унаследовать его общие свойства
+                        и добавить свои особенности.
+                    </p>
+                </div>
+            </section>
+
+            <section id="part-3">
+                <h2>18:00 — Виртуальные функции</h2>
+                <p>
+                    Виртуальные функции нужны, чтобы метод выбирался во время выполнения программы.
+                    Это удобно, когда мы работаем через указатель или ссылку на базовый класс,
+                    но фактически объект является наследником.
+                </p>
+
+                <button class="accordion-button">Показать короткое объяснение</button>
+                <div class="accordion-content">
+                    <p>
+                        Без виртуальной функции может вызваться метод базового класса.
+                        С виртуальной функцией C++ сможет выбрать правильный метод наследника.
+                    </p>
+                </div>
+            </section>
+
+            <section id="part-4">
+                <h2>30:00 — V-таблица</h2>
+                <p>
+                    V-таблица — это служебный механизм, который помогает программе понять,
+                    какую виртуальную функцию нужно вызвать. Обычно программист напрямую
+                    с ней не работает, но важно знать, что она может влиять на размер объекта
+                    и скорость работы.
+                </p>
+            </section>
+
+            <section id="part-5">
+                <h2>45:00 — Основные выводы</h2>
+                <ul>
+                    <li>Наследование в C++ — это не только удобный синтаксис.</li>
+                    <li>Виртуальные функции добавляют гибкость, но имеют свою цену.</li>
+                    <li>V-таблицы помогают реализовать полиморфизм.</li>
+                    <li>Нужно понимать внутреннее устройство C++, чтобы писать более осознанно.</li>
+                </ul>
+            </section>
+
+            <section id="examples">
+                <h2>Примеры кода</h2>
+                <p>
+                    Здесь сделаны простые вкладки. Они показывают разные примеры,
+                    связанные с темой доклада.
+                </p>
+
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="tab-1">Наследование</button>
+                    <button class="tab-button" data-tab="tab-2">Виртуальный метод</button>
+                </div>
+
+                <article class="tab-content active" id="tab-1">
+                    <h3>Пример наследования</h3>
+                    <pre><code>class Animal {
+public:
+    void eat() {
+        // общее действие
+    }
+};
+
+class Dog : public Animal {
+public:
+    void bark() {
+        // действие собаки
+    }
+};</code></pre>
+                    <button class="copy-button">Скопировать код</button>
+                </article>
+
+                <article class="tab-content" id="tab-2">
+                    <h3>Пример виртуального метода</h3>
+                    <pre><code>class Animal {
+public:
+    virtual void sound() {
+        // обычный звук
+    }
+};
+
+class Dog : public Animal {
+public:
+    void sound() override {
+        // лай собаки
+    }
+};</code></pre>
+                    <button class="copy-button">Скопировать код</button>
+                </article>
+            </section>
+
+            <section>
+                <h2>Что реализовано на JavaScript</h2>
+                <ol>
+                    <li>Переключение светлой и тёмной темы с сохранением в localStorage.</li>
+                    <li>Интерактивная навигация по таймлайну доклада.</li>
+                    <li>Вкладки с примерами кода.</li>
+                    <li>Копирование кода в буфер обмена.</li>
+                    <li>Аккордеон с дополнительным объяснением.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Источники</h2>
+                <ul>
+                    <li>
+                        <a href="https://youtu.be/VtC1uXyo7OU?si=2Rfj3gmJlf2Jom6d" target="_blank">
+                            Видео на YouTube
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://cppconf.ru/archive/2023/talks/f8bbe725bdd547389c57ebad08b95fe8/" target="_blank">
+                            Страница доклада на сайте C++ Russia
+                        </a>
+                    </li>
+                    <li>
+                        <a href="cpp-speaker.html">
+                            Страница о спикере
+                        </a>
+                    </li>
+                    <li>
+                        Рабочая ссылка на сайт:
+                        <a href="https://4heesecake.github.io/cpp-final.html" target="_blank">
+                            https://4heesecake.github.io/cpp-final.html
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="cpp-footer">
+            <p>Работу выполнил студент. Страница сделана на HTML, CSS/SCSS и Vanilla JavaScript.</p>
+        </footer>
+    </div>
+
+    <script src="js/cpp-final.js"></script>
+</body>
+</html>
