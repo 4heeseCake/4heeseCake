@@ -19,14 +19,14 @@
 
             <h2>Игра на реакцию</h2>
             <p>
-                Нажмите «Пуск», дождитесь появления красного круга
+                Нажмите «Пуск», дождитесь появления красного квадрата
                 и нажмите на него как можно быстрее.
             </p>
 
             <button class="btn" id="startButton">Пуск</button>
 
             <div class="reaction-field" id="reactionField">
-                <button class="reaction-target" id="targetButton" aria-label="цель"></button>
+                <button class="reaction-target" id="targetButton"></button>
             </div>
 
             <div class="result-box" id="messageBlock">
@@ -43,9 +43,9 @@
 
         let startTime = 0;
         let timerId = null;
-        let isTargetVisible = false;
+        let targetIsVisible = false;
 
-        function getRandomNumber(max) {
+        function randomNumber(max) {
             return Math.floor(Math.random() * max);
         }
 
@@ -53,11 +53,12 @@
             clearTimeout(timerId);
 
             targetButton.style.display = 'none';
-            isTargetVisible = false;
-            startButton.disabled = true;
-            messageBlock.textContent = 'Ждите появления цели...';
+            targetIsVisible = false;
 
-            const delay = 1000 + getRandomNumber(3000);
+            startButton.disabled = true;
+            messageBlock.textContent = 'Ждите появления красного квадрата...';
+
+            const delay = 1000 + randomNumber(3000);
 
             timerId = setTimeout(function () {
                 showTarget();
@@ -66,24 +67,27 @@
 
         function showTarget() {
             const targetSize = 55;
+
             const maxX = reactionField.clientWidth - targetSize;
             const maxY = reactionField.clientHeight - targetSize;
 
-            const x = getRandomNumber(maxX);
-            const y = getRandomNumber(maxY);
+            const x = randomNumber(maxX);
+            const y = randomNumber(maxY);
 
             targetButton.style.left = x + 'px';
             targetButton.style.top = y + 'px';
             targetButton.style.display = 'block';
 
             startTime = Date.now();
-            isTargetVisible = true;
+            targetIsVisible = true;
 
             messageBlock.textContent = 'ЖМИ!';
         }
 
-        function finishGame() {
-            if (!isTargetVisible) {
+        function finishGame(event) {
+            event.stopPropagation();
+
+            if (!targetIsVisible) {
                 return;
             }
 
@@ -91,7 +95,7 @@
             const result = ((endTime - startTime) / 1000).toFixed(3);
 
             targetButton.style.display = 'none';
-            isTargetVisible = false;
+            targetIsVisible = false;
             startButton.disabled = false;
 
             messageBlock.textContent = 'Ваше время реакции: ' + result + ' сек. Для новой попытки нажмите «Пуск».';
