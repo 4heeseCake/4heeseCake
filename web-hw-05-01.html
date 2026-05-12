@@ -1,157 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Кубик</title>
-
-<style>
-body {
-    background-color: #e6a5ad;
-    font-family: Arial;
-    text-align: center;
-}
-
-.block {
-    background-color: gray;
-    padding: 20px;
-    border-radius: 15px;
-    width: 70%;
-    margin: auto;
-    margin-top: 20px;
-}
-
-h2 { color: aquamarine; }
-
-a, button {
-    color: aquamarine;
-    border: 1px solid aquamarine;
-    padding: 8px;
-    background: transparent;
-    cursor: pointer;
-}
-
-.star {
-    font-size: 2em;
-    cursor: pointer;
-}
-
-.orange { color: orange; }
-
-#mouseBox {
-    width: 300px;
-    height: 200px;
-    border: 2px solid black;
-    margin: auto;
-}
-
-.active {
-    background-color: red;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB.HW.05.01 — Просмотр событий</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
 
-<div style="margin:20px;">
-<a href="index.html">← Вернуться на главную</a>
-</div>
+    <div class="container">
+        <header>
+            <h1>WEB.HW.05.01 — Просмотр событий</h1>
+            <p>Обработка кликов, рейтинга и движения мыши</p>
+        </header>
 
-<!-- Аналитика -->
-<div class="block">
-<h2>Аналитика кликов</h2>
+        <section>
+            <a class="page-link" href="index.html">← Вернуться на главную</a>
 
-<div id="container">
-<div class="box" id="box1">Кнопка 1</div>
-<div class="box" id="box2">Кнопка 2</div>
-<div class="box" id="box3">Кнопка 3</div>
-<div class="box" id="box4">Кнопка 4</div>
-</div>
+            <h2>Аналитика кликов</h2>
+            <p>
+                При нажатии на кнопку информация о событии добавляется в журнал.
+            </p>
 
-<div id="log"></div>
-</div>
+            <div class="event-buttons" id="eventButtons">
+                <button class="event-button" id="button-1">Кнопка 1</button>
+                <button class="event-button" id="button-2">Кнопка 2</button>
+                <button class="event-button" id="button-3">Кнопка 3</button>
+                <button class="event-button" id="button-4">Кнопка 4</button>
+            </div>
 
-<!-- Рейтинг -->
-<div class="block">
-<h2>Звездный рейтинг</h2>
+            <pre class="log-box" id="logBox">Журнал пока пуст.</pre>
+        </section>
 
-<div id="stars">
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-<span class="star">★</span>
-</div>
+        <section>
+            <h2>Звёздный рейтинг</h2>
+            <p>
+                Нажмите на звезду, чтобы поставить оценку.
+            </p>
 
-<div id="rating"></div>
-</div>
+            <div id="starsBlock">
+                <button class="star-button" data-value="1">★</button>
+                <button class="star-button" data-value="2">★</button>
+                <button class="star-button" data-value="3">★</button>
+                <button class="star-button" data-value="4">★</button>
+                <button class="star-button" data-value="5">★</button>
+            </div>
 
-<!-- Мышь -->
-<div class="block">
-<h2>Отслеживание мыши</h2>
+            <div class="result-box" id="ratingBlock">
+                Оценка ещё не выбрана.
+            </div>
+        </section>
 
-<div id="mouseBox"></div>
-<div id="coords"></div>
+        <section>
+            <h2>Отслеживание мыши</h2>
+            <p>
+                Наведите мышь на область ниже. Страница покажет координаты внутри блока.
+            </p>
 
-</div>
+            <div class="mouse-box" id="mouseBox">
+                Наведите мышь сюда
+            </div>
 
-<script>
+            <div class="result-box" id="coordsBlock">
+                Координаты пока не определены.
+            </div>
+        </section>
+    </div>
 
-//// 1. АНАЛИТИКА
-let logArr = [];
-let container = document.getElementById("container");
+    <script>
+        const log = [];
+        const eventButtons = document.getElementById('eventButtons');
+        const logBox = document.getElementById('logBox');
 
-container.addEventListener("click", (e) => {
+        eventButtons.addEventListener('click', function (event) {
+            if (!event.target.classList.contains('event-button')) {
+                return;
+            }
 
-    if (!e.target.id) return;
+            const info = {
+                text: event.target.textContent,
+                id: event.target.id,
+                tag: event.target.tagName,
+                time: new Date().toLocaleTimeString()
+            };
 
-    let obj = {
-        text: e.target.textContent,
-        id: e.target.id,
-        tag: e.target.tagName,
-        class: e.target.className
-    };
-
-    logArr.push(obj);
-
-    document.getElementById("log").innerHTML =
-        JSON.stringify(logArr, null, 2);
-});
-
-//// 2. ЗВЕЗДЫ
-let stars = document.querySelectorAll(".star");
-let output = document.getElementById("rating");
-
-stars.forEach((star, index) => {
-
-    star.addEventListener("click", () => {
-
-        output.textContent = "Оценка: " + (index + 1);
-
-        stars.forEach((s, i) => {
-            s.classList.toggle("orange", i <= index);
+            log.push(info);
+            logBox.textContent = JSON.stringify(log, null, 2);
         });
 
-    });
+        const starButtons = document.querySelectorAll('.star-button');
+        const ratingBlock = document.getElementById('ratingBlock');
 
-});
+        starButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const value = Number(button.dataset.value);
 
-//// 3. МЫШЬ
-let box = document.getElementById("mouseBox");
-let coords = document.getElementById("coords");
+                starButtons.forEach(function (star) {
+                    const starValue = Number(star.dataset.value);
+                    star.classList.toggle('selected', starValue <= value);
+                });
 
-box.addEventListener("mouseover", () => {
-    box.classList.add("active");
-});
+                ratingBlock.textContent = 'Ваша оценка: ' + value + ' из 5';
+            });
+        });
 
-box.addEventListener("mouseout", () => {
-    box.classList.remove("active");
-});
+        const mouseBox = document.getElementById('mouseBox');
+        const coordsBlock = document.getElementById('coordsBlock');
 
-box.addEventListener("mousemove", (e) => {
-    coords.textContent = "X: " + e.clientX + " Y: " + e.clientY;
-});
+        mouseBox.addEventListener('mouseenter', function () {
+            mouseBox.classList.add('mouse-active');
+        });
 
-</script>
+        mouseBox.addEventListener('mouseleave', function () {
+            mouseBox.classList.remove('mouse-active');
+            coordsBlock.textContent = 'Мышь вышла из блока.';
+        });
+
+        mouseBox.addEventListener('mousemove', function (event) {
+            const rect = mouseBox.getBoundingClientRect();
+            const x = Math.round(event.clientX - rect.left);
+            const y = Math.round(event.clientY - rect.top);
+
+            coordsBlock.textContent = 'X: ' + x + ', Y: ' + y;
+        });
+    </script>
 
 </body>
 </html>
